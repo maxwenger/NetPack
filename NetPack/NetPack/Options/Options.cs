@@ -16,6 +16,9 @@ namespace NetPack.Options
         [VerbOption("ping", HelpText = "Pings group of specified IPs.")]
         public PingSubOptions PingVerb { get; set; }
 
+        [VerbOption("clear", HelpText = "Clear console window")]
+        public bool Clear { get; set; }
+
         [HelpVerbOption]
         public string GetUsage(string verb)
         {

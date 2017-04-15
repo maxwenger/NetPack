@@ -1,5 +1,4 @@
 ﻿using System;
-using CommandLine;
 using NetPack.Options;
 using NetPack.Services;
 

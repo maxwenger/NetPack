@@ -85,12 +85,17 @@ namespace NetPack
 
         private static void SendToExecuter(string invokedVerb, object invokedVerbInstance)
         {
-            if (invokedVerb == "iflist")
+            switch (invokedVerb)
             {
-                new InterfaceListCommand().Execute((InterfaceListSubOptions)invokedVerbInstance);
-            } else if (invokedVerb == "ping")
-            {
-                new PingCommand().Execute((PingSubOptions)invokedVerbInstance);
+                case "iflist":
+                    new InterfaceListCommand().Execute((InterfaceListSubOptions) invokedVerbInstance);
+                    break;
+                case "ping":
+                    new PingCommand().Execute((PingSubOptions)invokedVerbInstance);
+                    break;
+                case "clear":
+                    Console.Clear();
+                    break;
             }
         }
     }

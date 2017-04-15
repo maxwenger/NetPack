@@ -12,5 +12,8 @@ namespace NetPack.Options
     {
         [OptionArray('l', "list", Required = true, HelpText = "List of target IPs")]
         public string[] IpAddresses { get; set; }
+
+        [Option('t', "time", Required = false, HelpText = "Interval of time to continiously ping in ms.")]
+        public int Interval { get; set; }
     }
 }

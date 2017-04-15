@@ -1,12 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Timers;
 using Net = System.Net.NetworkInformation;
 
 namespace NetPack.Services
 {
     public class Ping
     {
-        private List<string> ips;
+        private readonly List<string> ips;
+        private Timer timer;
 
         public Ping(IEnumerable<string> ips)
         {
@@ -15,6 +17,33 @@ namespace NetPack.Services
         }
 
         public bool WriteToConsole { get; set; }
+
+        public void SendContinious(int interval)
+        {
+            if (WriteToConsole)
+            {
+                Console.Out.WriteLine("\nPress any key to exit.");
+            }
+
+            timer = new Timer
+            {
+                Interval = interval,
+                Enabled = true
+            };
+            timer.Elapsed += OnTimedEvent;
+
+            Console.ReadKey();
+            timer.Enabled = false;
+        }
+
+        private void OnTimedEvent(object source, ElapsedEventArgs e)
+        {
+            if (WriteToConsole)
+            {
+                Console.Clear();
+            }
+            SendAll();
+        }
 
         public void SendAll()
         {
@@ -27,16 +56,15 @@ namespace NetPack.Services
                 var ip = ips[i];
                 try
                 {
-                    replies[i] = (ping.Send(ip));
+                    replies[i] = ping.Send(ip);
                 }
                 catch (Net.PingException e)
                 {
-                    errors[i]= e;
+                    errors[i] = e;
                 }
             }
 
             UpdateConsole(replies);
-
         }
 
         private void UpdateConsole(Net.PingReply[] replies)
