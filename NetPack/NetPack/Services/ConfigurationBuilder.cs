@@ -29,10 +29,20 @@ namespace NetPack.Services
 
             for (var i = 0; i < parsed.Length; i++)
             {
-                if (i % 2 == 0)
+                if (i % 2 != 0)
                 {
-                    Console.Out.Write(parsed[i] + ": ");
-                    builtConfig += Console.ReadLine();
+                    var options = parsed[i].Split(':');
+                    if (options.Length > 1)
+                    {
+                        Console.Out.Write($"{options[0]} ({options[1]}?):");
+                        var param = Console.ReadLine();
+                        builtConfig += string.IsNullOrWhiteSpace(param) ? options[1] : param;
+                    }
+                    else
+                    {
+                        Console.Out.Write(parsed[i] + ": ");
+                        builtConfig += Console.ReadLine() + "";
+                    }
                 }
                 else
                 {
