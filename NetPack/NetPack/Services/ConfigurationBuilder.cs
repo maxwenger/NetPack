@@ -8,8 +8,9 @@ namespace NetPack.Services
     {
         private string configTemplate;
         private char delimitor;
+        private char defaultParamDel;
 
-        public ConfigurationBuilder(string file, char delimitor)
+        public ConfigurationBuilder(string file, char delimitor, char defaultParamaterDelimator)
         {
             CanWriteToConsole = true;
             if (file != null && File.Exists(file))
@@ -17,6 +18,7 @@ namespace NetPack.Services
                 var reader = new StreamReader(file);
                 configTemplate = reader.ReadToEnd();
                 this.delimitor = delimitor;
+                this.defaultParamDel = defaultParamaterDelimator;
             }
         }
 
@@ -31,7 +33,7 @@ namespace NetPack.Services
             {
                 if (i % 2 != 0)
                 {
-                    var options = parsed[i].Split(':');
+                    var options = parsed[i].Split(defaultParamDel);
                     if (options.Length > 1)
                     {
                         Console.Out.Write($"{options[0]} ({options[1]}?):");

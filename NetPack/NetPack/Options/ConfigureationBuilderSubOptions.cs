@@ -8,9 +8,13 @@ namespace NetPack.Options
         [Option('t', "template-file", Required = true, HelpText = "Deliminated template file to parse through")]
         public string File { get; set; }
 
-        [Option('d', "delimtor", DefaultValue = '?' ,Required = false, HelpText = "Deliminated template file to parse through")]
+        [Option('a', "append-file", Required = true, HelpText = "Append or create given file with finished configureation")]
+        public string AppendFile { get; set; }
+
+        [Option('d', "delimtor", DefaultValue = '?' ,Required = false, HelpText = "Message Deliminator")]
         public char Delimitor { get; set; }
 
-
+        [Option("default-param-delimtor", DefaultValue = ':', Required = false, HelpText = "Default paramater delimitor.")]
+        public char DeaaultParamDelimitor { get; set; }
     }
 }
