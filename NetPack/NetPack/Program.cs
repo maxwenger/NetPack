@@ -1,91 +1,50 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using CommandLine;
 using NetPack.Commands;
+using NetPack.Options;
 
 namespace NetPack
 {
     class Program
     {
-        private static Dictionary<string, ICommand> Commands = new Dictionary<string, ICommand>()
-        {
-            {"iflist", new InterfaceListCommand()}
-        };
-
         static void Main(string[] args)
         {
             var active = args.Length <= 0;
 
             if (active)
             {
-                Console.Out.Write("Type exit to quit NetPack.");
+                Console.Out.WriteLine("Type exit to quit NetPack.");
             }
 
             do
             {
-
-                /*
-                var commandInput = "";
                 if (active)
                 {
-                    Console.Out.Write("\nNetPack: ");
-                    commandInput = Console.ReadLine();
-                } else if (args.Length >= 2)
-                {
-                    commandInput = args[1];
+                    GetActiveStateInput(ref args, ref active);
                 }
 
-                if(string.IsNullOrWhiteSpace(commandInput))
-                {
-                    Console.Out.Write(Commands.Keys.ToArray().ToString());
-                }
-
-                if (Commands.TryGetValue(commandInput, out ICommand command))
-                {
-                    command.Execute(args);
-                }
-                else
-                {
-                    Console.Out.WriteLine($"Bad input : {commandInput}");
-                }*/
-                if (active)
-                {
-                    Console.Out.Write("NetPack: ");
-                    var input = Console.ReadLine();
-
-                    if (input == null || input.ToLower().Equals("exit"))
-                    {
-                        active = false;
-                    }
-                    else
-                    {
-                        args = ParseArguments(input);
-                    }
-                }
-
-                if (args.Length <= 0)
-                {
-                    Console.Out.WriteLine("Avalible Commands: ");
-                    foreach (var k in Commands.Keys)
-                    {
-                        Console.Out.WriteLine(k);
-                    }
-                    Console.Out.WriteLine();
-                } else if (Commands.TryGetValue(args[0], out ICommand command))
-                {
-                    command.Execute(args);
-                }
-                else
-                {
-                    Console.Out.WriteLine($"Bad input : {args[0]}");
-                }
+                ParseAruments(args);
 
             } while (active);
         }
 
-        static string[] ParseArguments(string commandLine)
+        private static void GetActiveStateInput(ref string[] args, ref bool active)
+        {
+            Console.Out.Write("NetPack: ");
+            var input = Console.ReadLine();
+
+            if (input == null || input.ToLower().Equals("exit"))
+            {
+                active = false;
+            }
+            else
+            {
+                args = StringToArguments(input);
+            }
+        }
+
+        static string[] StringToArguments(string commandLine)
         {
             if (string.IsNullOrWhiteSpace(commandLine))
             {
@@ -108,5 +67,27 @@ namespace NetPack
             }
             return (new string(parmChars)).Split('\n');
         }
+
+        static void ParseAruments(string[] args)
+        {
+            var invokedVerb = "";
+            var invokedVerbInstance = new object();
+
+            var options = new Options.Options();
+            if (Parser.Default.ParseArguments(args, options,
+                (verb, subOptions) =>
+                {
+                    invokedVerb = verb;
+                    invokedVerbInstance = subOptions;
+                }))
+            {
+                if (invokedVerb == "iflist")
+                {
+                    var commitSubOptions = (InterfaceListSubOptions) invokedVerbInstance;
+                    new InterfaceListCommand().Execute(commitSubOptions);
+                }
+            }
+        }
+
     }
 }

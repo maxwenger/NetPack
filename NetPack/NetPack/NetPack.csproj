@@ -57,9 +57,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Commands\ICommand.cs" />
+    <Compile Include="Options\Options.cs" />
     <Compile Include="Commands\InterfaceListCommand.cs" />
-    <Compile Include="DeviceInformation.cs" />
+    <Compile Include="Options\InterfaceListSubOptions.cs" />
+    <Compile Include="Options\OptionsBase.cs" />
+    <Compile Include="InterfaceList.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -67,5 +69,6 @@
     <None Include="App.config" />
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

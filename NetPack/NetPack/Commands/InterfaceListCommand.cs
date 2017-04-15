@@ -1,16 +1,22 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using CommandLine;
+using NetPack.Options;
 
 namespace NetPack.Commands
 {
-    public class InterfaceListCommand : ICommand
+    public class InterfaceListCommand
     {
-        public void Execute(string[] args)
+        public void Execute(InterfaceListSubOptions options)
         {
-            Console.Out.Write(new DeviceInformation());
+            var devices = new DeviceInformation();
+            devices.LoadAllLocalMachiene();
+
+             if (!string.IsNullOrWhiteSpace(options.IpFilter))
+             {
+                devices.MatchIp(options.IpFilter);
+             }
+            
+            Console.Out.Write(devices);
         }
     }
 }
