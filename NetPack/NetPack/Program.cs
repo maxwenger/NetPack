@@ -1,14 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
 using CommandLine;
 using NetPack.Commands;
 using NetPack.Options;
 
 namespace NetPack
 {
-    class Program
+    internal class Program
     {
-        static void Main(string[] args)
+        private static void Main(string[] args)
         {
             var active = args.Length <= 0;
 
@@ -25,7 +24,6 @@ namespace NetPack
                 }
 
                 ParseAruments(args);
-
             } while (active);
         }
 
@@ -44,7 +42,7 @@ namespace NetPack
             }
         }
 
-        static string[] StringToArguments(string commandLine)
+        private static string[] StringToArguments(string commandLine)
         {
             if (string.IsNullOrWhiteSpace(commandLine))
             {
@@ -65,10 +63,10 @@ namespace NetPack
                     parmChars[index] = '\n';
                 }
             }
-            return (new string(parmChars)).Split('\n');
+            return new string(parmChars).Split('\n');
         }
 
-        static void ParseAruments(string[] args)
+        private static void ParseAruments(string[] args)
         {
             var invokedVerb = "";
             var invokedVerbInstance = new object();
@@ -81,13 +79,19 @@ namespace NetPack
                     invokedVerbInstance = subOptions;
                 }))
             {
-                if (invokedVerb == "iflist")
-                {
-                    var commitSubOptions = (InterfaceListSubOptions) invokedVerbInstance;
-                    new InterfaceListCommand().Execute(commitSubOptions);
-                }
+                SendToExecuter(invokedVerb, invokedVerbInstance);
             }
         }
 
+        private static void SendToExecuter(string invokedVerb, object invokedVerbInstance)
+        {
+            if (invokedVerb == "iflist")
+            {
+                new InterfaceListCommand().Execute((InterfaceListSubOptions)invokedVerbInstance);
+            } else if (invokedVerb == "ping")
+            {
+                new PingCommand().Execute((PingSubOptions)invokedVerbInstance);
+            }
+        }
     }
 }

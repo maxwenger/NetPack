@@ -57,13 +57,16 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Commands\PingCommand.cs" />
     <Compile Include="Options\Options.cs" />
     <Compile Include="Commands\InterfaceListCommand.cs" />
     <Compile Include="Options\InterfaceListSubOptions.cs" />
     <Compile Include="Options\OptionsBase.cs" />
-    <Compile Include="InterfaceList.cs" />
+    <Compile Include="Options\PingSubOptions.cs" />
+    <Compile Include="Services\InterfaceList.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\Ping.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

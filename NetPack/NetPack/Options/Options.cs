@@ -13,6 +13,9 @@ namespace NetPack.Options
         [VerbOption("iflist", HelpText = "Lists interface information.")]
         public InterfaceListSubOptions IfListVerb { get; set; }
 
+        [VerbOption("ping", HelpText = "Pings group of specified IPs.")]
+        public PingSubOptions PingVerb { get; set; }
+
         [HelpVerbOption]
         public string GetUsage(string verb)
         {
