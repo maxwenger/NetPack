@@ -1,4 +1,5 @@
-﻿using NetPack.Options;
+﻿using System.Runtime.InteropServices;
+using NetPack.Options;
 using NetPack.Services;
 
 namespace NetPack.Commands
@@ -7,7 +8,20 @@ namespace NetPack.Commands
     {
         public void Execute(PingSubOptions options)
         {
-            var pinger = new Ping(options.IpAddresses);
+            Ping pinger;
+            if (options.IpAddresses != null)
+            {
+                pinger = new Ping(options.IpAddresses);
+            } else if (options.File != null)
+            {
+                pinger = new Ping(options.File);
+            }
+            else
+            {
+                return;
+            }
+
+
             if (options.Interval >= 1)
             {
                 pinger.SendContinious(options.Interval);
