@@ -93,6 +93,9 @@ namespace NetPack
                 case "ping":
                     new PingCommand().Execute((PingSubOptions)invokedVerbInstance);
                     break;
+                case "confbuilder":
+                    new ConfigurationBuilderCommand().Execute((ConfigureationBuilderSubOptions)invokedVerbInstance);
+                    break;
                 case "clear":
                     Console.Clear();
                     break;
