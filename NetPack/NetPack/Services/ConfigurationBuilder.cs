@@ -1,14 +1,13 @@
 ﻿using System;
 using System.IO;
-using System.Xml;
 
 namespace NetPack.Services
 {
     public class ConfigurationBuilder
     {
-        private string configTemplate;
-        private char delimitor;
-        private char defaultParamDel;
+        private readonly string configTemplate;
+        private readonly char defaultParamDel;
+        private readonly char delimitor;
 
         public ConfigurationBuilder(string file, char delimitor, char defaultParamaterDelimator)
         {
@@ -18,7 +17,7 @@ namespace NetPack.Services
                 var reader = new StreamReader(file);
                 configTemplate = reader.ReadToEnd();
                 this.delimitor = delimitor;
-                this.defaultParamDel = defaultParamaterDelimator;
+                defaultParamDel = defaultParamaterDelimator;
             }
         }
 
@@ -52,7 +51,10 @@ namespace NetPack.Services
                 }
             }
 
+            Console.ForegroundColor = ConsoleColor.Black;
+            Console.BackgroundColor = ConsoleColor.White;
             Console.Out.WriteLine(builtConfig);
+            Console.ResetColor();
             return builtConfig;
         }
     }
