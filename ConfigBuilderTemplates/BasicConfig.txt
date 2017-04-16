@@ -1,0 +1,15 @@
+hostname ?Hostname for the device?
+no ip domain-lookup
+banner motd #
+?Message of the day banner?
+#
+enable secret ?password:class?
+line vty ?vty range?
+password ?vtypassword:cisco?
+login
+line con 0
+password ?console password:cisco?
+login
+interface ?interface?
+ip add ?ip address:192.168.1.1? ?subnet mask:255.255.255.0?
+no shutdown
